@@ -230,9 +230,16 @@ extension CodeScannerView {
             previewLayer.frame = view.layer.bounds
             previewLayer.videoGravity = .resizeAspectFill
             view.layer.addSublayer(previewLayer)
-            addviewfinder()
+            addviewfinder()*/
+            
+            let scannerOverlayPreviewLayer = ScannerOverlayPreviewLayer(session: captureSession)
+            scannerOverlayPreviewLayer.frame = view.layer.bounds
+            scannerOverlayPreviewLayer.maskSize = CGSize(width: 200, height: 200)
+            scannerOverlayPreviewLayer.videoGravity = .resizeAspectFill
+            view.layer.addSublayer(scannerOverlayPreviewLayer)
+            //metadataOutput.rectOfInterest = scannerOverlayPreviewLayer.rectOfInterest
 
-            reset()*/
+            reset()
 
             if (captureSession.isRunning == false) {
                 DispatchQueue.global(qos: .userInteractive).async {
@@ -287,7 +294,6 @@ extension CodeScannerView {
         }
       
         private func setupCaptureDevice() {
-            addScannerOverlay()
             captureSession = AVCaptureSession()
 
             guard let videoCaptureDevice = parentView.videoCaptureDevice ?? fallbackVideoCaptureDevice else {
@@ -320,13 +326,6 @@ extension CodeScannerView {
                 didFail(reason: .badOutput)
                 return
             }
-            
-            let scannerOverlayPreviewLayer = ScannerOverlayPreviewLayer(session: captureSession!)
-            scannerOverlayPreviewLayer.frame = scannerView.bounds
-            scannerOverlayPreviewLayer.maskSize = CGSize(width: 200, height: 200)
-            scannerOverlayPreviewLayer.videoGravity = .resizeAspectFill
-            scannerView.layer.addSublayer(scannerOverlayPreviewLayer)
-            metadataOutput.rectOfInterest = scannerOverlayPreviewLayer.rectOfInterest
         }
 
         private func addviewfinder() {
@@ -339,19 +338,6 @@ extension CodeScannerView {
                 imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
                 imageView.widthAnchor.constraint(equalToConstant: 200),
                 imageView.heightAnchor.constraint(equalToConstant: 200),
-            ])
-        }
-        
-        private func addScannerOverlay() {
-            view.addSubview(scannerView)
-            
-            scannerView.translatesAutoresizingMaskIntoConstraints = false
-            
-            NSLayoutConstraint.activate([
-                scannerView.topAnchor.constraint(equalTo: view.topAnchor),
-                scannerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                scannerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                scannerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
             ])
         }
 
