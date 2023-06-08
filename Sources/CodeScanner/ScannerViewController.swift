@@ -223,21 +223,14 @@ extension CodeScannerView {
                 return
             }
             
-            /*if previewLayer == nil {
+            if previewLayer == nil {
                 previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
             }
 
             previewLayer.frame = view.layer.bounds
             previewLayer.videoGravity = .resizeAspectFill
             view.layer.addSublayer(previewLayer)
-            addviewfinder()*/
-            
-            let scannerOverlayPreviewLayer = ScannerOverlayPreviewLayer(session: captureSession)
-            scannerOverlayPreviewLayer.frame = view.layer.bounds
-            scannerOverlayPreviewLayer.maskSize = CGSize(width: 200, height: 200)
-            scannerOverlayPreviewLayer.videoGravity = .resizeAspectFill
-            view.layer.addSublayer(scannerOverlayPreviewLayer)
-            //metadataOutput.rectOfInterest = scannerOverlayPreviewLayer.rectOfInterest
+            addviewfinder()
 
             reset()
 
