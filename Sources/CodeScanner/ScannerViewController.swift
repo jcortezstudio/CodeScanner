@@ -229,10 +229,10 @@ extension CodeScannerView {
 
             previewLayer.frame = view.layer.bounds
             previewLayer.videoGravity = .resizeAspectFill
-            view.layer.addSublayer(previewLayer)*/
+            view.layer.addSublayer(previewLayer)
             addviewfinder()
 
-            reset()
+            reset()*/
 
             if (captureSession.isRunning == false) {
                 DispatchQueue.global(qos: .userInteractive).async {
