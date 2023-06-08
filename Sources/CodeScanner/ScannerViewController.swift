@@ -22,6 +22,8 @@ extension CodeScannerView {
         var lastTime = Date(timeIntervalSince1970: 0)
         private let showViewfinder: Bool
         
+        private var scannerView = UIView()
+        
         private var isGalleryShowing: Bool = false {
             didSet {
                 // Update binding
@@ -229,6 +231,7 @@ extension CodeScannerView {
             previewLayer.videoGravity = .resizeAspectFill
             view.layer.addSublayer(previewLayer)
             addviewfinder()
+            addScannerOverlay()
 
             reset()
 
@@ -317,6 +320,13 @@ extension CodeScannerView {
                 didFail(reason: .badOutput)
                 return
             }
+            
+            let scannerOverlayPreviewLayer = ScannerOverlayPreviewLayer(session: captureSession!)
+            scannerOverlayPreviewLayer.frame = scannerView.bounds
+            scannerOverlayPreviewLayer.maskSize = CGSize(width: 200, height: 200)
+            scannerOverlayPreviewLayer.videoGravity = .resizeAspectFill
+            scannerView.layer.addSublayer(scannerOverlayPreviewLayer)
+            metadataOutput.rectOfInterest = scannerOverlayPreviewLayer.rectOfInterest
         }
 
         private func addviewfinder() {
@@ -329,6 +339,19 @@ extension CodeScannerView {
                 imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
                 imageView.widthAnchor.constraint(equalToConstant: 200),
                 imageView.heightAnchor.constraint(equalToConstant: 200),
+            ])
+        }
+        
+        private func addScannerOverlay() {
+            view.addSubview(scannerView)
+            
+            scannerView.translatesAutoresizingMaskIntoConstraints = false
+            
+            NSLayoutConstraint.activate([
+                scannerView.topAnchor.constraint(equalTo: view.topAnchor),
+                scannerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                scannerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                scannerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
             ])
         }
 
