@@ -231,7 +231,6 @@ extension CodeScannerView {
             previewLayer.videoGravity = .resizeAspectFill
             view.layer.addSublayer(previewLayer)
             addviewfinder()
-            addScannerOverlay()
 
             reset()
 
@@ -288,6 +287,7 @@ extension CodeScannerView {
         }
       
         private func setupCaptureDevice() {
+            addScannerOverlay()
             captureSession = AVCaptureSession()
 
             guard let videoCaptureDevice = parentView.videoCaptureDevice ?? fallbackVideoCaptureDevice else {
